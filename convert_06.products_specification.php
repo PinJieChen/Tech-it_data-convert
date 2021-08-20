@@ -45,13 +45,13 @@ try {
 
 
 //★★★你的 excel 檔案路徑 (含檔名)
-$inputFileName = 'convert.excel/00.categories.xlsx';
+$inputFileName = 'convert.excel/06.products_specification.xlsx';
 
 //透過套件功能來讀取 excel 檔
 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
 
 //★★★取得指定名稱工作表
-$worksheet = $spreadsheet->getSheetByName('categories'); //或 $spreadsheet->->getSheet(2);
+$worksheet = $spreadsheet->getSheetByName('products_specification'); //或 $spreadsheet->->getSheet(2);
 
 //讀取當前工作表(sheet)的資料列數
 $highestRow = $worksheet->getHighestRow();
@@ -63,15 +63,15 @@ for($i = 2; $i <= $highestRow; $i++) {
         $worksheet->getCell('A'.$i)->getValue() === null ) break;
     
     //★★★讀取 cell 值
-    $cate_id = $worksheet->getCell('A'.$i)->getValue();
-    $cate_name = $worksheet->getCell('B'.$i)->getValue();
-    $parent_id = $worksheet->getCell('C'.$i)->getValue();
+    $prod_id = $worksheet->getCell('A'.$i)->getValue();
+    $specific_id = $worksheet->getCell('B'.$i)->getValue();
+    $specific_content = $worksheet->getCell('C'.$i)->getValue();
     
     //★★★寫入資料
-    $sql = "INSERT INTO `categories`(`cate_id`,
-        `cate_name`, `parent_id`
+    $sql = "INSERT INTO `products_specification`(`prod_id`,
+        `specific_id`, `specific_content`
         ) VALUES (
-            '{$cate_id}', '{$cate_name}', '{$parent_id}')";
+            '{$prod_id}', '{$specific_id}', '{$specific_content}')";
     $stmt = $pdo->query($sql);
 
     //若是成功寫入資料
