@@ -1,4 +1,3 @@
-<!-- 大專導入資料測試，★★★為須調整/確認參數 -->
 <?php
 //讀取 composer 所下載的套件
 require_once('vendor/autoload.php');
@@ -74,19 +73,34 @@ for($i = 2; $i <= $highestRow; $i++) {
     $address = $worksheet->getCell('I'.$i)->getValue();
     $store_a = $worksheet->getCell('J'.$i)->getValue();
     $store_b = $worksheet->getCell('K'.$i)->getValue();
-
+    
     //★★★寫入資料
-    $sql = "INSERT INTO `users`(`user_id`,
-        `email`, `pwd`, `user_name`,
-        `photo_sticker`, `phone_number`, `birthday`,
-        `class`, `address`, `store_a`,
+    $sql = "INSERT INTO `users`(
+        `user_id`,
+        `email`, 
+        `pwd`, 
+        `user_name`,
+        `photo_sticker`, 
+        `phone_number`, 
+        `birthday`,
+        `class`, 
+        `address`, 
+        `store_a`,
         `store_b`
         ) VALUES (
-            '{$user_id}', '{$email}', '{$pwd}', '{$user_name}'
-            , '{$photo_sticker}', '{$phone_number}', '{$birthday}'
-            , '{$class}', '{$address}', '{$store_a}'
-            , '{$store_b}')";
-    $stmt = $pdo->query($sql);
+            '{$user_id}', 
+            '{$email}', 
+            '{$pwd}', 
+            '{$user_name}', 
+            '{$photo_sticker}', 
+            '{$phone_number}', 
+            '{$birthday}', 
+            '{$class}', 
+            '{$address}', 
+            '{$store_a}', 
+            '{$store_b}'
+            )";
+            $stmt = $pdo->query($sql);
 
     //若是成功寫入資料
     if( $stmt->rowCount() > 0 ){
