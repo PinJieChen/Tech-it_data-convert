@@ -45,7 +45,7 @@ try {
 
 
 //★★★你的 excel 檔案路徑 (含檔名)
-$inputFileName = 'convert.excel/02.users-users_coupon-users_follow.xlsx';
+$inputFileName = 'convert.excel/02.users-users_coupon-users_order.xlsx';
 
 //透過套件功能來讀取 excel 檔
 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);

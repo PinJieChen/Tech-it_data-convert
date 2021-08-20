@@ -51,7 +51,7 @@ $inputFileName = 'convert.excel/02.users-users_coupon-users_order.xlsx';
 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
 
 //★★★取得指定名稱工作表
-$worksheet = $spreadsheet->getSheetByName('users'); //或 $spreadsheet->->getSheet(2);
+$worksheet = $spreadsheet->getSheetByName('users_order'); //或 $spreadsheet->->getSheet(2);
 
 //讀取當前工作表(sheet)的資料列數
 $highestRow = $worksheet->getHighestRow();
@@ -64,28 +64,50 @@ for($i = 2; $i <= $highestRow; $i++) {
     
     //★★★讀取 cell 值
     $user_id = $worksheet->getCell('A'.$i)->getValue();
-    $email = $worksheet->getCell('B'.$i)->getValue();
-    $pwd = $worksheet->getCell('C'.$i)->getValue();
-    $user_name = $worksheet->getCell('D'.$i)->getValue();
-    $photo_sticker = $worksheet->getCell('E'.$i)->getValue();
-    $phone_number = $worksheet->getCell('F'.$i)->getValue();
-    $birthday = $worksheet->getCell('G'.$i)->getValue();
-    $class = $worksheet->getCell('H'.$i)->getValue();
-    $address = $worksheet->getCell('I'.$i)->getValue();
-    $store_a = $worksheet->getCell('J'.$i)->getValue();
-    $store_b = $worksheet->getCell('K'.$i)->getValue();
+    $order_id = $worksheet->getCell('B'.$i)->getValue();
+    $email = $worksheet->getCell('C'.$i)->getValue();
+    $transport_area = $worksheet->getCell('D'.$i)->getValue();
+    $transport_type = $worksheet->getCell('E'.$i)->getValue();
+    $transport_payment = $worksheet->getCell('F'.$i)->getValue();
+    $transport_arrival_time = $worksheet->getCell('G'.$i)->getValue();
+    $recipient_email = $worksheet->getCell('H'.$i)->getValue();
+    $recipient_name = $worksheet->getCell('I'.$i)->getValue();
+    $recipient_phone_number = $worksheet->getCell('J'.$i)->getValue();
+    $recipient_address = $worksheet->getCell('K'.$i)->getValue();
+
+    $recipient_comments = $worksheet->getCell('L'.$i)->getValue();
+    $invoice_type = $worksheet->getCell('M'.$i)->getValue();
+    $invoice_carrier = $worksheet->getCell('N'.$i)->getValue();
+    $invoice_carrier_number = $worksheet->getCell('O'.$i)->getValue();
+    $coupon_code = $worksheet->getCell('P'.$i)->getValue();
+    $card_number = $worksheet->getCell('Q'.$i)->getValue();
+    $card_valid_date = $worksheet->getCell('R'.$i)->getValue();
+    $card_ccv = $worksheet->getCell('S'.$i)->getValue();
+    $card_holder = $worksheet->getCell('T'.$i)->getValue();
+    $total = $worksheet->getCell('U'.$i)->getValue();
+    $total_m = $worksheet->getCell('V'.$i)->getValue();
     
     //★★★寫入資料
-    $sql = "INSERT INTO `users`(
-        `user_id`, `email`, `pwd`,
-        `user_name`, `photo_sticker`, `phone_number`,
-        `birthday`, `class`, `address`,
-        `store_a`, `store_b`
+    $sql = "INSERT INTO `users_order`(
+        `user_id`, `order_id`, `email`,
+        `transport_area`, `transport_type`, `transport_payment`,
+        `transport_arrival_time`, `recipient_email`, `recipient_name`,
+        `recipient_phone_number`, `recipient_address`,
+
+        `recipient_comments`, `invoice_type`, `invoice_carrier`,
+        `invoice_carrier_number`, `coupon_code`, `card_number`,
+        `card_valid_date`, `card_ccv`, `card_holder`,
+        `total`, `total_m`
         ) VALUES (
-            '{$user_id}', '{$email}', '{$pwd}',
-            '{$user_name}', '{$photo_sticker}', '{$phone_number}',
-            '{$birthday}', '{$class}', '{$address}',
-            '{$store_a}', '{$store_b}'
+            '{$user_id}', '{$order_id}', '{$email}',
+            '{$transport_area}', '{$transport_type}', '{$transport_payment}',
+            '{$transport_arrival_time}', '{$recipient_email}', '{$recipient_name}',
+            '{$recipient_phone_number}', '{$recipient_address}',
+
+            '{$recipient_comments}', '{$invoice_type}', '{$invoice_carrier}',
+            '{$invoice_carrier_number}', '{$coupon_code}', '{$card_number}',
+            '{$card_valid_date}', '{$card_ccv}', '{$card_holder}',
+            '{$total}', '{$total_m}'
             )";
     $stmt = $pdo->query($sql);
 
