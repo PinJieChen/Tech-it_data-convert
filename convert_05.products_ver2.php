@@ -1,4 +1,3 @@
-<!-- 大專導入資料測試，★★★為須調整/確認參數 -->
 <?php
 //讀取 composer 所下載的套件
 require_once('vendor/autoload.php');
@@ -8,7 +7,7 @@ const DRIVER_NAME = "mysql"; //使用哪一家資料庫
 const DB_HOST = "localhost"; //資料庫網路位址 (127.0.0.1)
 const DB_USERNAME = "root"; //資料庫連線帳號
 const DB_PASSWORD = ""; //資料庫連線密碼
-const DB_NAME = "db_techit"; //★★★指定資料庫
+const DB_NAME = "db_techit"; //指定資料庫
 const DB_CHARSET = "utf8mb4"; //指定字元集，亦即是文字的編碼來源
 const DB_COLLATE = "utf8mb4_unicode_ci"; //在字元集之下的排序依據
 
@@ -38,20 +37,16 @@ try {
 }
 
 
-/**
- * 官方範例
- * URL: https://phpspreadsheet.readthedocs.io/en/latest/
- */
 
 
-//★★★你的 excel 檔案路徑 (含檔名)
-$inputFileName = 'convert.excel/05.products_ver2.xlsx';
+//你的 excel 檔案路徑 (含檔名)
+$inputFileName = './05.products_ver2.xlsx';
 
 //透過套件功能來讀取 excel 檔
 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
 
-//★★★取得指定名稱工作表
-$worksheet = $spreadsheet->getSheetByName('products'); //或 $spreadsheet->->getSheet(2);
+//取得指定名稱工作表
+$worksheet = $spreadsheet->getSheetByName('products'); //或 $spreadsheet->->getSheet(0);
 
 //讀取當前工作表(sheet)的資料列數
 $highestRow = $worksheet->getHighestRow();
@@ -64,33 +59,23 @@ for ($i = 2; $i <= $highestRow; $i++) {
         $worksheet->getCell('A' . $i)->getValue() === null
     ) break;
 
-    //★★★讀取 cell 值
+    //讀取 cell 值
     $prod_id = $worksheet->getCell('A' . $i)->getValue();
     $prod_name = $worksheet->getCell('B' . $i)->getValue();
     $prod_thumbnail = $worksheet->getCell('C' . $i)->getValue();
-
     $prod_price = $worksheet->getCell('E' . $i)->getValue();
     $prod_type = $worksheet->getCell('F' . $i)->getValue();
     $prod_size = $worksheet->getCell('G' . $i)->getValue();
-
     $prod_description = $worksheet->getCell('H' . $i)->getValue();
     $cate_id = $worksheet->getCell('J' . $i)->getValue();
     $cate_id_set = $worksheet->getCell('K' . $i)->getValue();
-
     $brand_id = $worksheet->getCell('L' . $i)->getValue();
 
-    //★★★寫入資料
-    $sql = "INSERT INTO `products`(
-        `prod_id`,`prod_name`, `prod_thumbnail`,
-        `prod_price`,`prod_type`,`prod_size`,
-        `prod_description`,`cate_id`,`cate_id_set`,
-        `brand_id`)
-     VALUES (
-        '{$prod_id}', '{$prod_name}','{$prod_thumbnail}',
-        '{$prod_price}','{$prod_type}','{$prod_size}', 
-        '{$prod_description}','{$cate_id}','{$cate_id_set}', 
-        '{$brand_id}'
-            )";
+    //寫入資料
+    $sql = "INSERT INTO products
+            (`prod_id`,`prod_name`, `prod_thumbnail`,`prod_price`,`prod_type`,`prod_size`,`prod_description`,`cate_id`,`cate_id_set`,`brand_id`) 
+            VALUES 
+            ({$prod_id}, '{$prod_name}','{$prod_thumbnail}',{$prod_price},'{$prod_type}',' {$prod_size}', '{$prod_description}',{$cate_id},'{$cate_id_set}', {$brand_id})";
     $stmt = $pdo->query($sql);
 
     //若是成功寫入資料
